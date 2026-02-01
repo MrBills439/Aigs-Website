@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  @apply bg-sand text-ink antialiased;
+  font-family: var(--font-manrope), ui-sans-serif, system-ui;
+}
+
+.font-serif {
+  font-family: var(--font-playfair), ui-serif, Georgia;
+}
+
+.gradient-mesh {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(246, 215, 208, 0.7), transparent 40%),
+    radial-gradient(circle at 80% 10%, rgba(201, 161, 107, 0.35), transparent 45%),
+    radial-gradient(circle at 50% 80%, rgba(244, 197, 192, 0.55), transparent 45%),
+    #f8f2ed;
+}
+
+.card {
+  @apply rounded-3xl border border-rose/40 bg-white/70 backdrop-blur-md shadow-sm;
+}
+
+.section-title {
+  @apply font-serif text-2xl md:text-4xl tracking-tight;
+}
+
+.badge {
+  @apply inline-flex items-center rounded-full border border-gold/40 bg-white/80 px-3 py-1 text-[10px] md:text-xs uppercase tracking-[0.2em] text-deep;
+}

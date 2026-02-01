@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+enum DeliveryMethod {
+  STANDARD
+  EXPRESS
+  COLLECTION
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  CASH_ON_COLLECTION
+  PAYMENT_LINK
+  OTHER
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+}
+
+enum FulfillmentStatus {
+  NEW
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String?
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+}
+
+model Product {
+  id           String        @id @default(cuid())
+  title        String
+  slug         String        @unique
+  description  String
+  price        Int
+  currency     String        @default("USD")
+  wigType      String
+  texture      String
+  lengthInches String[]
+  density      String
+  laceType     String
+  capSize      String
+  color        String
+  sku          String        @unique
+  stockQty     Int
+  isFeatured   Boolean       @default(false)
+  isActive     Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  media        ProductMedia[]
+  orderItems   OrderItem[]
+}
+
+model ProductMedia {
+  id        String    @id @default(cuid())
+  productId String
+  type      MediaType
+  url       String
+  alt       String?
+  sortOrder Int       @default(0)
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id                    String             @id @default(cuid())
+  customerName          String
+  customerEmail         String
+  phone                 String
+  shippingAddressLine1  String?
+  shippingAddressLine2  String?
+  city                  String?
+  postcode              String?
+  country               String?
+  deliveryMethod        DeliveryMethod
+  paymentMethod         PaymentMethod
+  paymentStatus         PaymentStatus     @default(UNPAID)
+  fulfillmentStatus     FulfillmentStatus @default(NEW)
+  notes                 String?
+  adminNotes            String?
+  subtotal              Int
+  shippingFee           Int
+  total                 Int
+  currency              String            @default("USD")
+  emailSentAt           DateTime?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+  items                 OrderItem[]
+}
+
+model OrderItem {
+  id               String  @id @default(cuid())
+  orderId          String
+  productId        String
+  titleSnapshot    String
+  priceSnapshot    Int
+  qty              Int
+  mediaSnapshotUrl String?
+  order            Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product          Product @relation(fields: [productId], references: [id])
+}
