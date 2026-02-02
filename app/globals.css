@@ -38,3 +38,29 @@ body {
 .badge {
   @apply inline-flex items-center rounded-full border border-gold/40 bg-white/80 px-3 py-1 text-[10px] md:text-xs uppercase tracking-[0.2em] text-deep;
 }
+
+.runner {
+  position: relative;
+  width: 120px;
+  height: 24px;
+}
+
+.runner-dot {
+  position: absolute;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #2b1f1a;
+  animation: runner 1s infinite ease-in-out;
+}
+
+.runner-dot:nth-child(1) { left: 0; animation-delay: 0s; }
+.runner-dot:nth-child(2) { left: 0; animation-delay: 0.15s; }
+.runner-dot:nth-child(3) { left: 0; animation-delay: 0.3s; }
+
+@keyframes runner {
+  0% { transform: translateX(0) scale(1); opacity: 0.6; }
+  50% { transform: translateX(100px) scale(1.2); opacity: 1; }
+  100% { transform: translateX(0) scale(1); opacity: 0.6; }
+}

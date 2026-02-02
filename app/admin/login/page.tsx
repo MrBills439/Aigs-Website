@@ -6,6 +6,7 @@ import { useState } from 'react';
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   return (
@@ -33,13 +34,22 @@ export default function AdminLoginPage() {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full rounded-2xl border border-rose/40 bg-white px-4 py-2 text-sm"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Password"
+              className="w-full rounded-2xl border border-rose/40 bg-white px-4 py-2 pr-12 text-sm"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs uppercase tracking-[0.2em] text-deep/60"
+            >
+              {showPassword ? 'Hide' : 'Show'}
+            </button>
+          </div>
           <button
             type="submit"
             disabled={loading}

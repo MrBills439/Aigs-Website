@@ -122,3 +122,13 @@ model OrderItem {
   order            Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   product          Product @relation(fields: [productId], references: [id])
 }
+
+model ReviewMedia {
+  id        String    @id @default(cuid())
+  title     String
+  type      MediaType
+  url       String
+  alt       String?
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now())
+}

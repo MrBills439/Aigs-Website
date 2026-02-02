@@ -183,6 +183,16 @@ async function main() {
     });
   }
 
+  await prisma.reviewMedia.create({
+    data: {
+      title: 'Amina O. · Lace melt review',
+      type: 'IMAGE',
+      url: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80',
+      alt: 'Client review',
+      sortOrder: 1
+    }
+  });
+
   console.log({ adminEmail, adminPassword, products: products.count });
 }
 

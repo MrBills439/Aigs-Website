@@ -1,8 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Playfair_Display, Manrope } from 'next/font/google';
-import SiteHeader from '@/components/SiteHeader';
-import SiteFooter from '@/components/SiteFooter';
+import RouteChrome from '@/components/RouteChrome';
 
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
 const manrope = Manrope({ subsets: ['latin'], variable: '--font-manrope' });
@@ -31,9 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${playfair.variable} ${manrope.variable}`}>
       <body className="font-sans">
         <div className="min-h-screen bg-sand">
-          <SiteHeader />
-          <main>{children}</main>
-          <SiteFooter />
+          <RouteChrome>{children}</RouteChrome>
         </div>
       </body>
     </html>
