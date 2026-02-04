@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import BrandLogo from '@/components/BrandLogo';
+import AdminSignOutButton from '@/components/admin/AdminSignOutButton';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Link href="/admin/orders">Orders</Link>
             <Link href="/admin/reviews">Reviews</Link>
           </nav>
+          <AdminSignOutButton />
         </div>
       </div>
       <div className="mx-auto w-full max-w-6xl px-6 py-10">{children}</div>

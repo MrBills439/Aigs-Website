@@ -11,6 +11,7 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
   }
 
   const mediaUrl = product.media?.[0]?.url ?? null;
+  const videoMedia = product.media.find((item) => item.type === 'VIDEO');
 
   return (
     <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-12 md:grid-cols-[1.1fr,0.9fr] md:px-6 md:py-16">
@@ -41,6 +42,17 @@ export default async function ProductDetailPage({ params }: { params: { slug: st
             <p className="text-sm uppercase tracking-[0.2em] text-deep/60">Stock</p>
             <p className="text-sm text-deep/70">{product.stockQty > 0 ? `${product.stockQty} available` : 'Out of stock'}</p>
           </div>
+          {videoMedia && (
+            <div className="mt-4 rounded-2xl border border-rose/30 bg-sand/70 p-3">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-deep/60">Wig video preview</p>
+              <video
+                src={videoMedia.url}
+                controls
+                className="mt-2 h-40 w-full rounded-xl object-cover"
+                preload="metadata"
+              />
+            </div>
+          )}
           <div className="mt-6">
             <AddToCartButton
               productId={product.id}

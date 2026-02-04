@@ -17,6 +17,7 @@
 
 ## Images and media
 - Product images/videos are uploaded in the admin dashboard and stored as Cloudinary URLs.
+- Review photos/videos are managed in `Admin -> Reviews` and displayed on `/reviews`.
 - Featured visuals (hero/Instagram placeholders) are simple blocks in `app/page.tsx` and can be replaced with real imagery.
 
 ## Logo

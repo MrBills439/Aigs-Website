@@ -4,16 +4,17 @@ import type { ProductWithMedia } from '@/lib/types';
 import { formatMoney } from '@/lib/format';
 
 export default function ProductCard({ product }: { product: ProductWithMedia }) {
-  const media = product.media?.[0];
+  const imageMedia = product.media.find((item) => item.type === 'IMAGE') ?? product.media?.[0];
+  const videoMedia = product.media.find((item) => item.type === 'VIDEO');
 
   return (
     <Link href={`/shop/${product.slug}`} className="group block">
       <div className="overflow-hidden rounded-3xl border border-rose/30 bg-white">
         <div className="relative h-64 w-full">
-          {media ? (
+          {imageMedia && imageMedia.type === 'IMAGE' ? (
             <Image
-              src={media.url}
-              alt={media.alt || product.title}
+              src={imageMedia.url}
+              alt={imageMedia.alt || product.title}
               fill
               className="object-cover transition duration-500 group-hover:scale-105"
             />
@@ -27,6 +28,19 @@ export default function ProductCard({ product }: { product: ProductWithMedia }) 
           <p className="text-xs uppercase tracking-[0.3em] text-deep/50">{product.wigType}</p>
           <h3 className="font-serif text-xl">{product.title}</h3>
           <p className="text-sm text-deep/70">{product.texture} · {product.laceType}</p>
+          {videoMedia && (
+            <div className="rounded-2xl border border-rose/30 bg-sand/80 p-2">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-deep/60">Wig video</p>
+              <video
+                src={videoMedia.url}
+                muted
+                loop
+                playsInline
+                autoPlay
+                className="mt-2 h-24 w-full rounded-xl object-cover"
+              />
+            </div>
+          )}
           <div className="flex items-center justify-between">
             <span className="text-sm font-semibold text-deep">
               {formatMoney(product.price, product.currency)}

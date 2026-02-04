@@ -6,6 +6,7 @@ import type { ProductMedia } from '@prisma/client';
 
 export default function MediaGallery({ media, title }: { media: ProductMedia[]; title: string }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const active = media[activeIndex];
 
   if (media.length === 0) {
@@ -22,7 +23,11 @@ export default function MediaGallery({ media, title }: { media: ProductMedia[]; 
         {active.type === 'VIDEO' ? (
           <video src={active.url} controls className="h-96 w-full object-cover" />
         ) : (
-          <div className="relative h-96 w-full">
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(true)}
+            className="relative block h-96 w-full"
+          >
             <Image
               src={active.url}
               alt={active.alt || title}
@@ -30,7 +35,7 @@ export default function MediaGallery({ media, title }: { media: ProductMedia[]; 
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
-          </div>
+          </button>
         )}
       </div>
       <div className="flex gap-3 overflow-x-auto">
@@ -52,6 +57,26 @@ export default function MediaGallery({ media, title }: { media: ProductMedia[]; 
           </button>
         ))}
       </div>
+      {lightboxOpen && active.type === 'IMAGE' && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 p-4">
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(false)}
+            className="absolute right-4 top-4 rounded-full bg-white/20 px-3 py-1 text-xs uppercase tracking-[0.2em] text-white"
+          >
+            Close
+          </button>
+          <div className="relative h-[80vh] w-full max-w-4xl">
+            <Image
+              src={active.url}
+              alt={active.alt || title}
+              fill
+              className="object-contain"
+              sizes="100vw"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

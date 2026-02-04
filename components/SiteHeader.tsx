@@ -13,6 +13,7 @@ export default function SiteHeader() {
         <BrandLogo />
         <nav className="hidden items-center gap-6 text-sm uppercase tracking-[0.2em] text-deep/70 md:flex">
           <Link href="/shop" className="hover:text-deep">Shop</Link>
+          <Link href="/reviews" className="hover:text-deep">Reviews</Link>
           <Link href="/about" className="hover:text-deep">About</Link>
           <Link href="/contact" className="hover:text-deep">Contact</Link>
           <Link href="/policies/shipping" className="hover:text-deep">Policies</Link>
@@ -34,6 +35,7 @@ export default function SiteHeader() {
       </div>
       <nav className="flex items-center gap-4 overflow-x-auto border-t border-rose/20 px-4 py-3 text-xs uppercase tracking-[0.2em] text-deep/60 md:hidden">
         <Link href="/shop" className="shrink-0">Shop</Link>
+        <Link href="/reviews" className="shrink-0">Reviews</Link>
         <Link href="/about" className="shrink-0">About</Link>
         <Link href="/contact" className="shrink-0">Contact</Link>
         <Link href="/policies/shipping" className="shrink-0">Policies</Link>

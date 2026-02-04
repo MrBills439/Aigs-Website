@@ -21,8 +21,7 @@ export default function MediaUploader({
 }) {
   const [uploading, setUploading] = useState(false);
 
-  async function handleUpload(file: File) {
-    setUploading(true);
+  async function uploadSingle(file: File, mediaType: 'IMAGE' | 'VIDEO') {
     const signatureResponse = await fetch('/api/upload-signature', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -39,9 +38,7 @@ export default function MediaUploader({
 
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
     if (!cloudName) {
-      alert('Missing Cloudinary cloud name');
-      setUploading(false);
-      return;
+      throw new Error('Missing Cloudinary cloud name');
     }
 
     const uploadResponse = await fetch(
@@ -54,25 +51,60 @@ export default function MediaUploader({
     const uploadData = await uploadResponse.json();
 
     if (!uploadResponse.ok) {
-      alert('Upload failed');
-      setUploading(false);
-      return;
+      throw new Error('Upload failed');
     }
 
     const mediaResponse = await fetch(`/api/admin/products/${productId}/media`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        type: uploadData.resource_type === 'video' ? 'VIDEO' : 'IMAGE',
+        type: mediaType,
         url: uploadData.secure_url,
         alt: uploadData.original_filename,
         sortOrder: media.length + 1
       })
     });
 
-    const newMedia = await mediaResponse.json();
-    onChange([...media, newMedia]);
-    setUploading(false);
+    if (!mediaResponse.ok) {
+      throw new Error('Unable to save media');
+    }
+
+    return mediaResponse.json() as Promise<MediaItem>;
+  }
+
+  async function handleUpload(files: FileList, mediaType: 'IMAGE' | 'VIDEO') {
+    setUploading(true);
+    try {
+      if (mediaType === 'IMAGE') {
+        const currentImageCount = media.filter((item) => item.type === 'IMAGE').length;
+        const remainingSlots = Math.max(0, 5 - currentImageCount);
+        const selectedFiles = Array.from(files).slice(0, remainingSlots);
+        if (selectedFiles.length === 0) {
+          alert('This wig already has 5 images.');
+          return;
+        }
+        const uploaded: MediaItem[] = [];
+        for (const file of selectedFiles) {
+          const newMedia = await uploadSingle(file, 'IMAGE');
+          uploaded.push(newMedia);
+        }
+        onChange([...media, ...uploaded]);
+        if (files.length > selectedFiles.length) {
+          alert('Only 5 images are allowed per wig.');
+        }
+        return;
+      }
+
+      const videoFile = files[0];
+      if (!videoFile) return;
+      const newMedia = await uploadSingle(videoFile, 'VIDEO');
+      onChange([...media, newMedia]);
+    } catch (error) {
+      console.error(error);
+      alert('Upload failed. Please try again.');
+    } finally {
+      setUploading(false);
+    }
   }
 
   async function removeMedia(mediaId: string) {
@@ -103,15 +135,34 @@ export default function MediaUploader({
   return (
     <div className="space-y-4">
       <label className="text-xs uppercase tracking-[0.2em] text-deep/60">Media</label>
-      <input
-        type="file"
-        accept="image/*,video/*"
-        onChange={(event) => {
-          const file = event.target.files?.[0];
-          if (file) handleUpload(file);
-        }}
-        className="block w-full text-sm"
-      />
+      <p className="text-xs text-deep/60">
+        Add up to 5 images per wig. Video is optional and can be added when available.
+      </p>
+      <div className="grid gap-4 md:grid-cols-2">
+        <label className="rounded-2xl border border-rose/30 bg-white p-3 text-xs">
+          <p className="mb-2 uppercase tracking-[0.2em] text-deep/60">Upload image</p>
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={(event) => {
+              if (event.target.files?.length) handleUpload(event.target.files, 'IMAGE');
+            }}
+            className="block w-full text-sm"
+          />
+        </label>
+        <label className="rounded-2xl border border-rose/30 bg-white p-3 text-xs">
+          <p className="mb-2 uppercase tracking-[0.2em] text-deep/60">Upload video (optional)</p>
+          <input
+            type="file"
+            accept="video/*"
+            onChange={(event) => {
+              if (event.target.files?.length) handleUpload(event.target.files, 'VIDEO');
+            }}
+            className="block w-full text-sm"
+          />
+        </label>
+      </div>
       {uploading && <p className="text-xs text-deep/60">Uploading...</p>}
       <div className="space-y-3">
         {media.map((item, index) => (

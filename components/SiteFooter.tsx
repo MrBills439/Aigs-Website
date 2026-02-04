@@ -15,6 +15,7 @@ export default function SiteFooter() {
         <div className="space-y-2 text-sm">
           <p className="font-semibold uppercase tracking-[0.2em]">Explore</p>
           <Link href="/shop" className="block text-deep/70 hover:text-deep">Shop</Link>
+          <Link href="/reviews" className="block text-deep/70 hover:text-deep">Reviews</Link>
           <Link href="/about" className="block text-deep/70 hover:text-deep">About</Link>
           <Link href="/contact" className="block text-deep/70 hover:text-deep">Contact</Link>
         </div>

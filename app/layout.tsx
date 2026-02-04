@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${playfair.variable} ${manrope.variable}`}>
       <body className="font-sans">
-        <div className="min-h-screen bg-sand">
+        <div className="flex min-h-screen flex-col bg-sand">
           <RouteChrome>{children}</RouteChrome>
         </div>
       </body>

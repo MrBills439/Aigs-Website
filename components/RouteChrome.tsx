@@ -13,7 +13,7 @@ export default function RouteChrome({ children }: { children: React.ReactNode })
     <>
       {!isAdmin && <SiteHeader />}
       <RouteLoader />
-      <main>{children}</main>
+      <main className="flex-1">{children}</main>
       {!isAdmin && <SiteFooter />}
     </>
   );
