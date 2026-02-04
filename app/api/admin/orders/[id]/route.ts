@@ -1,23 +1,33 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/auth-helpers';
 import { z } from 'zod';
 
 const updateSchema = z.object({
-  fulfillmentStatus: z.enum(['NEW', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED']).optional(),
+  fulfillmentStatus: z
+    .enum(['NEW', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED'])
+    .optional(),
   paymentStatus: z.enum(['UNPAID', 'PAID']).optional(),
-  adminNotes: z.string().optional()
+  adminNotes: z.string().optional(),
 });
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+type Params = { id: string };
+
+export async function PATCH(
+  request: NextRequest,
+  context: { params: Promise<Params> }
+) {
   try {
     await requireAdmin();
+
     const body = await request.json();
     const parsed = updateSchema.parse(body);
 
+    const { id } = await context.params;
+
     const order = await prisma.order.update({
-      where: { id: params.id },
-      data: parsed
+      where: { id },
+      data: parsed,
     });
 
     return NextResponse.json({ id: order.id });
