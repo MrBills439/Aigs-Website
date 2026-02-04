@@ -57,7 +57,7 @@ model Product {
   slug         String        @unique
   description  String
   price        Int
-  currency     String        @default("USD")
+  currency     String        @default("GHS")
   wigType      String
   texture      String
   lengthInches String[]
@@ -104,7 +104,7 @@ model Order {
   subtotal              Int
   shippingFee           Int
   total                 Int
-  currency              String            @default("USD")
+  currency              String            @default("GHS")
   emailSentAt           DateTime?
   createdAt             DateTime          @default(now())
   updatedAt             DateTime          @updatedAt

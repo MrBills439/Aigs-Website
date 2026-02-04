@@ -4,15 +4,28 @@ import { checkoutSchema } from '@/lib/validators';
 import { sendOrderEmails } from '@/lib/email';
 import { z } from 'zod';
 
+
+
+
+
+
+
+
+
+a
+
+
 const cartItemSchema = z.object({
   productId: z.string(),
   qty: z.number().min(1)
 });
 
-const orderSchema = checkoutSchema.extend({
-  items: z.array(cartItemSchema).min(1),
-  currency: z.string().default('USD')
-});
+const orderSchema = checkoutSchema.and(
+  z.object({
+    items: z.array(cartItemSchema).min(1),
+    currency: z.string().default('GHS')
+  })
+);
 
 const shippingFees: Record<string, number> = {
   STANDARD: 1000,

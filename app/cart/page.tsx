@@ -8,6 +8,7 @@ import { formatMoney } from '@/lib/format';
 export default function CartPage() {
   const { items, updateQty, removeItem } = useCartStore();
   const subtotal = items.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const displayCurrency = items[0]?.currency ?? 'GHS';
 
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-12 md:px-6 md:py-16">
@@ -62,7 +63,7 @@ export default function CartPage() {
           ))}
           <div className="card flex flex-col items-end gap-4 p-6">
             <p className="text-sm text-deep/70">Subtotal</p>
-            <p className="text-2xl font-semibold text-deep">{formatMoney(subtotal, 'USD')}</p>
+            <p className="text-2xl font-semibold text-deep">{formatMoney(subtotal, displayCurrency)}</p>
             <Link href="/checkout" className="rounded-full bg-deep px-6 py-3 text-xs uppercase tracking-[0.2em] text-white">
               Proceed to checkout
             </Link>

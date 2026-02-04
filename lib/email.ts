@@ -8,7 +8,7 @@ export function ownerOrderEmail(order: Order, items: OrderItem[]) {
   const rows = items
     .map(
       (item) =>
-        `<tr><td>${item.titleSnapshot}</td><td>${item.qty}</td><td>${formatMoney(item.priceSnapshot, order.currency ?? 'USD')}</td></tr>`
+        `<tr><td>${item.titleSnapshot}</td><td>${item.qty}</td><td>${formatMoney(item.priceSnapshot, order.currency ?? 'GHS')}</td></tr>`
     )
     .join('');
 
@@ -27,9 +27,9 @@ export function ownerOrderEmail(order: Order, items: OrderItem[]) {
         </thead>
         <tbody>${rows}</tbody>
       </table>
-      <p><strong>Subtotal:</strong> ${formatMoney(order.subtotal, order.currency ?? 'USD')}</p>
-      <p><strong>Shipping:</strong> ${formatMoney(order.shippingFee, order.currency ?? 'USD')}</p>
-      <p><strong>Total:</strong> ${formatMoney(order.total, order.currency ?? 'USD')}</p>
+      <p><strong>Subtotal:</strong> ${formatMoney(order.subtotal, order.currency ?? 'GHS')}</p>
+      <p><strong>Shipping:</strong> ${formatMoney(order.shippingFee, order.currency ?? 'GHS')}</p>
+      <p><strong>Total:</strong> ${formatMoney(order.total, order.currency ?? 'GHS')}</p>
     </div>
   `;
 }
@@ -38,7 +38,7 @@ export function customerOrderEmail(order: Order, items: OrderItem[]) {
   const rows = items
     .map(
       (item) =>
-        `<tr><td>${item.titleSnapshot}</td><td>${item.qty}</td><td>${formatMoney(item.priceSnapshot, order.currency ?? 'USD')}</td></tr>`
+        `<tr><td>${item.titleSnapshot}</td><td>${item.qty}</td><td>${formatMoney(item.priceSnapshot, order.currency ?? 'GHS')}</td></tr>`
     )
     .join('');
 
@@ -52,9 +52,9 @@ export function customerOrderEmail(order: Order, items: OrderItem[]) {
         </thead>
         <tbody>${rows}</tbody>
       </table>
-      <p><strong>Subtotal:</strong> ${formatMoney(order.subtotal, order.currency ?? 'USD')}</p>
-      <p><strong>Shipping:</strong> ${formatMoney(order.shippingFee, order.currency ?? 'USD')}</p>
-      <p><strong>Total:</strong> ${formatMoney(order.total, order.currency ?? 'USD')}</p>
+      <p><strong>Subtotal:</strong> ${formatMoney(order.subtotal, order.currency ?? 'GHS')}</p>
+      <p><strong>Shipping:</strong> ${formatMoney(order.shippingFee, order.currency ?? 'GHS')}</p>
+      <p><strong>Total:</strong> ${formatMoney(order.total, order.currency ?? 'GHS')}</p>
       <p><strong>Next steps:</strong> Payment is manual. Our team will reach out with payment instructions.</p>
     </div>
   `;

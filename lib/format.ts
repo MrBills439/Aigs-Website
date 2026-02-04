@@ -1,6 +1,8 @@
 export function formatMoney(amount: number, currency: string) {
-  return new Intl.NumberFormat('en-US', {
+  const normalizedCurrency =
+    currency === 'GHC' || currency === 'USD' || currency === '$' ? 'GHS' : currency;
+  return new Intl.NumberFormat('en-GH', {
     style: 'currency',
-    currency
+    currency: normalizedCurrency
   }).format(amount / 100);
 }

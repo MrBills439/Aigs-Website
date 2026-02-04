@@ -47,7 +47,7 @@ export default function CheckoutPage() {
         body: JSON.stringify({
           ...values,
           items,
-          currency: 'USD'
+          currency: 'GHS'
         })
       });
       if (!response.ok) {
@@ -177,15 +177,15 @@ export default function CheckoutPage() {
               ))}
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span>{formatMoney(subtotal, 'USD')}</span>
+                <span>{formatMoney(subtotal, 'GHS')}</span>
               </div>
               <div className="flex justify-between">
                 <span>Shipping</span>
-                <span>{formatMoney(shippingFee, 'USD')}</span>
+                <span>{formatMoney(shippingFee, 'GHS')}</span>
               </div>
               <div className="flex justify-between text-base font-semibold text-deep">
                 <span>Total</span>
-                <span>{formatMoney(subtotal + shippingFee, 'USD')}</span>
+                <span>{formatMoney(subtotal + shippingFee, 'GHS')}</span>
               </div>
               <p className="text-xs text-deep/60">
                 Payment is manual. We will contact you after checkout to arrange payment.

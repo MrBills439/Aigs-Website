@@ -34,7 +34,7 @@ export default function ProductForm({
       slug: defaultValues?.slug ?? '',
       description: defaultValues?.description ?? '',
       price: defaultValues?.price ?? 0,
-      currency: defaultValues?.currency ?? 'USD',
+      currency: defaultValues?.currency ?? 'GHS',
       wigType: defaultValues?.wigType ?? '',
       texture: defaultValues?.texture ?? '',
       lengthInches: defaultValues?.lengthInches ?? ['20'],
@@ -85,7 +85,7 @@ export default function ProductForm({
           <textarea placeholder="Description" className="min-h-[140px] rounded-2xl border border-rose/40 bg-white px-4 py-2 text-sm" {...form.register('description')} />
           <div className="grid gap-4 md:grid-cols-2">
             <input
-              placeholder="Price (USD)"
+              placeholder="Price (GHS)"
               className="rounded-2xl border border-rose/40 bg-white px-4 py-2 text-sm"
               value={priceDisplay}
               onChange={(event) => setPriceDisplay(event.target.value)}
