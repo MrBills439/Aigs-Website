@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/auth-helpers';
 import { z } from 'zod';
@@ -19,15 +19,21 @@ const reorderSchema = z.object({
   )
 });
 
-export async function POST(request: Request, { params }: { params: { id: string } }) {
+type Params = { id: string };
+
+export async function POST(
+  request: NextRequest,
+  context: { params: Promise<Params> }
+) {
   try {
     await requireAdmin();
     const body = await request.json();
     const parsed = createSchema.parse(body);
+    const { id } = await context.params;
 
     const media = await prisma.productMedia.create({
       data: {
-        productId: params.id,
+        productId: id,
         type: parsed.type,
         url: parsed.url,
         alt: parsed.alt,
@@ -42,7 +48,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
   }
 }
 
-export async function PATCH(request: Request) {
+export async function PATCH(request: NextRequest) {
   try {
     await requireAdmin();
     const body = await request.json();
@@ -64,7 +70,7 @@ export async function PATCH(request: Request) {
   }
 }
 
-export async function DELETE(request: Request) {
+export async function DELETE(request: NextRequest) {
   try {
     await requireAdmin();
     const { searchParams } = new URL(request.url);

@@ -1,16 +1,22 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { productSchema } from '@/lib/validators';
 import { requireAdmin } from '@/lib/auth-helpers';
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+type Params = { id: string };
+
+export async function PUT(
+  request: NextRequest,
+  context: { params: Promise<Params> }
+) {
   try {
     await requireAdmin();
     const body = await request.json();
     const parsed = productSchema.parse(body);
+    const { id } = await context.params;
 
     const product = await prisma.product.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         ...parsed
       }
