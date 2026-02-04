@@ -4,17 +4,6 @@ import { checkoutSchema } from '@/lib/validators';
 import { sendOrderEmails } from '@/lib/email';
 import { z } from 'zod';
 
-
-
-
-
-
-
-
-
-
-
-
 const cartItemSchema = z.object({
   productId: z.string(),
   qty: z.number().min(1)
