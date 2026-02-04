@@ -20,12 +20,11 @@ const cartItemSchema = z.object({
   qty: z.number().min(1)
 });
 
-const orderSchema = checkoutSchema.and(
-  z.object({
-    items: z.array(cartItemSchema).min(1),
-    currency: z.string().default('GHS')
-  })
-);
+const orderSchema = checkoutSchema.innerType().extend({
+  items: z.array(cartItemSchema).min(1),
+  currency: z.string().default('GHS')
+});
+
 
 const shippingFees: Record<string, number> = {
   STANDARD: 1000,
