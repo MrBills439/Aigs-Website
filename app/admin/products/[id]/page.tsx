@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma';
 import ProductForm from '@/components/admin/ProductForm';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function EditProductPage({ params }: { params: { id: string } }) {
   const product = await prisma.product.findUnique({

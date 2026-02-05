@@ -3,6 +3,7 @@ import { formatMoney } from '@/lib/format';
 import OrderStatusForm from '@/components/admin/OrderStatusForm';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function AdminOrderDetailPage({ params }: { params: { id: string } }) {
   const order = await prisma.order.findUnique({
