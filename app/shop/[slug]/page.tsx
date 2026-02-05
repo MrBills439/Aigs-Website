@@ -4,6 +4,9 @@ import MediaGallery from '@/components/MediaGallery';
 import AddToCartButton from '@/components/AddToCartButton';
 import { formatMoney } from '@/lib/format';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
   const product = await getProductBySlug(params.slug);
   if (!product) {

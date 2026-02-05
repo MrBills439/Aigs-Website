@@ -1,5 +1,8 @@
 import { getReviewMedia } from '@/lib/reviews';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function ReviewsPage() {
   const media = await getReviewMedia();
 

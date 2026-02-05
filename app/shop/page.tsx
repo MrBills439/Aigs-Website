@@ -2,6 +2,9 @@ import ShopFilters from '@/components/ShopFilters';
 import ProductCard from '@/components/ProductCard';
 import { getShopProducts } from '@/lib/products';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function ShopPage({
   searchParams
 }: {
