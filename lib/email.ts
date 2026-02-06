@@ -85,3 +85,22 @@ export async function sendOrderEmails(params: {
     html: customerOrderEmail(order, items)
   });
 }
+
+export async function sendPasswordResetEmail(params: {
+  to: string;
+  resetUrl: string;
+}) {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error('RESEND_API_KEY is not configured');
+  }
+
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const { to, resetUrl } = params;
+
+  await resend.emails.send({
+    from: 'ADIS WiGS AND Beauty <security@adiswigsandbeauty.com>',
+    to,
+    subject: 'Reset your ADIS WiGS AND Beauty admin password',
+    html: `<p>We received a request to reset your admin password.</p>\n<p><a href=\"${resetUrl}\">Reset your password</a></p>\n<p>This link will expire in 1 hour.</p>`
+  });
+}

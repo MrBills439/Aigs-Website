@@ -51,6 +51,7 @@ model User {
   passwordHash String?
   role         Role     @default(ADMIN)
   createdAt    DateTime @default(now())
+  resetTokens  PasswordResetToken[]
 }
 
 model Product {
@@ -133,4 +134,14 @@ model ReviewMedia {
   alt       String?
   sortOrder Int       @default(0)
   createdAt DateTime  @default(now())
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

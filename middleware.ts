@@ -7,7 +7,10 @@ export default withAuth({
   callbacks: {
     authorized: ({ token, req }) => {
       const { pathname } = req.nextUrl;
-      if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
+      if (
+        pathname.startsWith('/admin') &&
+        !['/admin/login', '/admin/forgot-password', '/admin/reset-password'].includes(pathname)
+      ) {
         return token?.role === 'ADMIN';
       }
       return true;

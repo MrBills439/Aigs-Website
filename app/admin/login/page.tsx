@@ -59,6 +59,9 @@ export default function AdminLoginPage() {
           >
             {loading ? 'Signing in...' : 'Sign in'}
           </button>
+          <a href="/admin/forgot-password" className="block text-center text-xs uppercase tracking-[0.2em] text-deep/60">
+            Forgot password?
+          </a>
         </form>
       </div>
     </div>

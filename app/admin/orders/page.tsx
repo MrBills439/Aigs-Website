@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
+import { formatMoney } from '@/lib/format';
+import OrderActions from '@/components/admin/OrderActions';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -14,7 +16,8 @@ export default async function AdminOrdersPage({
   const statusFilter = searchParams.status;
   const orders = await prisma.order.findMany({
     where: statusFilter ? { fulfillmentStatus: statusFilter as any } : undefined,
-    orderBy: { createdAt: 'desc' }
+    orderBy: { createdAt: 'desc' },
+    include: { items: true }
   });
 
   return (
@@ -33,20 +36,28 @@ export default async function AdminOrdersPage({
         ) : (
           <div className="space-y-4 text-sm">
             {orders.map((order) => (
-              <Link
+              <div
                 key={order.id}
-                href={`/admin/orders/${order.id}`}
-                className="flex flex-wrap items-center justify-between gap-4 border-b border-rose/30 pb-3"
+                className="flex flex-col gap-4 border-b border-rose/30 pb-4 md:flex-row md:items-center md:justify-between"
               >
-                <div>
-                  <p className="font-semibold text-deep">#{order.id}</p>
+                <div className="space-y-2">
+                  <Link href={`/admin/orders/${order.id}`} className="font-semibold text-deep">
+                    #{order.id}
+                  </Link>
                   <p className="text-xs text-deep/60">{order.customerName} · {order.customerEmail}</p>
+                  <p className="text-xs text-deep/60">
+                    {order.items.map((item) => `${item.titleSnapshot} × ${item.qty}`).join(', ')}
+                  </p>
+                  <p className="text-xs text-deep/60">
+                    Total: {formatMoney(order.total, order.currency)}
+                  </p>
                 </div>
-                <div className="flex items-center gap-4 text-xs uppercase tracking-[0.2em] text-deep/60">
+                <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.2em] text-deep/60">
                   <span>{order.fulfillmentStatus}</span>
                   <span>{order.paymentStatus}</span>
+                  <OrderActions orderId={order.id} fulfillmentStatus={order.fulfillmentStatus} />
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         )}

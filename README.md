@@ -60,6 +60,7 @@ The admin product form uploads media using signed uploads:
 
 ## Resend emails
 Order confirmation and owner notifications are sent via Resend. Ensure the sender domain is verified or change the `from` address in `lib/email.ts`.
+Admin password reset links are also sent via Resend using `NEXTAUTH_URL` as the base URL.
 
 ## Database seed
 Seed script creates:

@@ -13,6 +13,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Link href="/admin/products">Products</Link>
             <Link href="/admin/orders">Orders</Link>
             <Link href="/admin/reviews">Reviews</Link>
+            <Link href="/admin/users">Users</Link>
           </nav>
           <AdminSignOutButton />
         </div>
