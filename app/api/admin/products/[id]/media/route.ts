@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/auth-helpers';
 import { z } from 'zod';
+import { deleteCloudinaryAsset } from '@/lib/cloudinary';
 
 const createSchema = z.object({
   type: z.enum(['IMAGE', 'VIDEO']),
   url: z.string().url(),
+  publicId: z.string().optional(),
   alt: z.string().optional(),
   sortOrder: z.number().optional()
 });
@@ -36,6 +38,7 @@ export async function POST(
         productId: id,
         type: parsed.type,
         url: parsed.url,
+        publicId: parsed.publicId,
         alt: parsed.alt,
         sortOrder: parsed.sortOrder ?? 0
       }
@@ -78,7 +81,11 @@ export async function DELETE(request: NextRequest) {
     if (!mediaId) {
       return NextResponse.json({ error: 'mediaId is required' }, { status: 400 });
     }
-    await prisma.productMedia.delete({ where: { id: mediaId } });
+    const media = await prisma.productMedia.delete({ where: { id: mediaId } });
+    if (media.publicId) {
+      const resourceType = media.type === 'VIDEO' ? 'video' : 'image';
+      await deleteCloudinaryAsset({ publicId: media.publicId, resourceType });
+    }
     return NextResponse.json({ status: 'deleted' });
   } catch (error) {
     console.error(error);

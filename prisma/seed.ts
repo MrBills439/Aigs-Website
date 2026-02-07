@@ -169,19 +169,7 @@ async function main() {
     ]
   });
 
-  const createdProducts = await prisma.product.findMany();
-
-  for (const product of createdProducts) {
-    await prisma.productMedia.create({
-      data: {
-        productId: product.id,
-        type: 'IMAGE',
-        url: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80',
-        alt: product.title,
-        sortOrder: 1
-      }
-    });
-  }
+  // No placeholder media seeded. Upload real images/videos from the admin dashboard.
 
   await prisma.reviewMedia.create({
     data: {

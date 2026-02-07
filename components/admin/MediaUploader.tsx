@@ -6,6 +6,7 @@ type MediaItem = {
   id: string;
   url: string;
   type: 'IMAGE' | 'VIDEO';
+  publicId?: string | null;
   alt?: string | null;
   sortOrder: number;
 };
@@ -60,6 +61,7 @@ export default function MediaUploader({
       body: JSON.stringify({
         type: mediaType,
         url: uploadData.secure_url,
+        publicId: uploadData.public_id,
         alt: uploadData.original_filename,
         sortOrder: media.length + 1
       })
@@ -167,8 +169,20 @@ export default function MediaUploader({
       <div className="space-y-3">
         {media.map((item, index) => (
           <div key={item.id} className="flex items-center justify-between gap-4 rounded-2xl border border-rose/30 bg-white p-3 text-xs">
-            <span>{item.type}</span>
-            <span className="truncate text-deep/70">{item.url}</span>
+            <div className="flex items-center gap-3">
+              <div className="h-14 w-14 overflow-hidden rounded-xl border border-rose/30 bg-sand/50">
+                {item.type === 'VIDEO' ? (
+                  <video src={item.url} className="h-full w-full object-cover" muted playsInline />
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={item.url} alt={item.alt || 'Media'} className="h-full w-full object-cover" />
+                )}
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-deep/60">{item.type}</p>
+                <p className="max-w-[240px] truncate text-deep/70">{item.alt || item.url}</p>
+              </div>
+            </div>
             <div className="flex items-center gap-2">
               <button type="button" onClick={() => moveMedia(item.id, 'up')} disabled={index === 0}>
                 Up
