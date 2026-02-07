@@ -5,19 +5,23 @@ import { getShopProducts } from '@/lib/products';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
+type SearchParams = Record<string, string | string[] | undefined>;
+
 export default async function ShopPage({
   searchParams
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<SearchParams>;
 }) {
+  const sp = await searchParams;
+
   const products = await getShopProducts({
-    query: typeof searchParams.q === 'string' ? searchParams.q : undefined,
-    texture: typeof searchParams.texture === 'string' ? searchParams.texture : undefined,
-    length: typeof searchParams.length === 'string' ? searchParams.length : undefined,
-    laceType: typeof searchParams.laceType === 'string' ? searchParams.laceType : undefined,
-    capSize: typeof searchParams.capSize === 'string' ? searchParams.capSize : undefined,
-    inStock: searchParams.inStock === '1',
-    sort: typeof searchParams.sort === 'string' ? searchParams.sort : undefined
+    query: typeof sp.q === 'string' ? sp.q : undefined,
+    texture: typeof sp.texture === 'string' ? sp.texture : undefined,
+    length: typeof sp.length === 'string' ? sp.length : undefined,
+    laceType: typeof sp.laceType === 'string' ? sp.laceType : undefined,
+    capSize: typeof sp.capSize === 'string' ? sp.capSize : undefined,
+    inStock: sp.inStock === '1',
+    sort: typeof sp.sort === 'string' ? sp.sort : undefined
   });
 
   return (
