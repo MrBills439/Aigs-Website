@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import type { z } from 'zod';
 import { productSchema } from '@/lib/validators';
 import MediaUploader from '@/components/admin/MediaUploader';
+import { slugify } from '@/lib/slugify';
 
 export type ProductFormValues = z.infer<typeof productSchema>;
 
@@ -54,8 +55,10 @@ export default function ProductForm({
   );
 
   async function onSubmit(values: ProductFormValues) {
+    const slug = values.slug && values.slug.trim().length > 0 ? values.slug : slugify(values.title);
     const payload = {
       ...values,
+      slug,
       price: Math.round(Number(priceDisplay) * 100)
     };
 
@@ -72,7 +75,7 @@ export default function ProductForm({
 
     if (!productId) {
       const data = await response.json();
-      window.location.href = `/admin/products/${data.id}`;
+      window.location.href = `/admin/products/${data.slug ?? slug}`;
     }
   }
 

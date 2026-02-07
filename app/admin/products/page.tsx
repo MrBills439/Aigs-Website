@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
+import ProductStatusToggle from '@/components/admin/ProductStatusToggle';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -20,13 +21,15 @@ export default async function AdminProductsPage() {
           {products.map((product) => (
             <div key={product.id} className="flex flex-wrap items-center justify-between gap-3 border-b border-rose/30 pb-3">
               <div>
-                <p className="font-semibold text-deep">{product.title}</p>
+                <Link href={`/admin/products/${product.slug}`} className="font-semibold text-deep">
+                  {product.title}
+                </Link>
                 <p className="text-xs uppercase tracking-[0.2em]">{product.sku}</p>
               </div>
               <div className="flex items-center gap-4">
                 <span>{product.stockQty} in stock</span>
-                <span>{product.isActive ? 'Active' : 'Hidden'}</span>
-                <Link href={`/admin/products/${product.id}`} className="text-xs uppercase tracking-[0.2em] text-deep">
+                <ProductStatusToggle productId={product.id} isActive={product.isActive} />
+                <Link href={`/admin/products/${product.slug}`} className="text-xs uppercase tracking-[0.2em] text-deep">
                   Edit
                 </Link>
               </div>

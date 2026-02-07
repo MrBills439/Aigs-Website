@@ -12,10 +12,11 @@ export async function POST(request: Request) {
     const product = await prisma.product.create({
       data: {
         ...parsed
-      }
+      },
+      select: { id: true, slug: true }
     });
 
-    return NextResponse.json({ id: product.id });
+    return NextResponse.json({ id: product.id, slug: product.slug });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Unable to create product.' }, { status: 400 });

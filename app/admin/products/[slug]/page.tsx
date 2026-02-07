@@ -1,27 +1,26 @@
-import { prisma } from '@/lib/prisma';
-import ProductForm from '@/components/admin/ProductForm';
+import { prisma } from "@/lib/prisma";
+import ProductForm from "@/components/admin/ProductForm";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function EditProductPage({
   params,
 }: {
-  params: { id?: string };
+  params: Promise<{ slug?: string }>;
 }) {
-  // 🚨 HARD GUARD
-  if (!params?.id) {
-    return <p className="text-sm text-red-600">Invalid product ID.</p>;
+  const { slug } = await params;
+
+  if (!slug) {
+    return <p className="text-sm text-red-600">Invalid product slug.</p>;
   }
 
   const product = await prisma.product.findUnique({
-    where: { id: params.id },
-    include: { media: { orderBy: { sortOrder: 'asc' } } },
+    where: { slug },
+    include: { media: { orderBy: { sortOrder: "asc" } } },
   });
 
-  if (!product) {
-    return <p className="text-sm">Product not found.</p>;
-  }
+  if (!product) return <p className="text-sm">Product not found.</p>;
 
   return (
     <div className="space-y-6">
