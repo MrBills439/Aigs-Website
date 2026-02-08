@@ -25,7 +25,7 @@ type Params = { id: string };
 
 export async function POST(
   request: NextRequest,
-  context: { params: Params }
+  context: { params: Promise<Params> }
 ) {
   await requireAdmin();
 
@@ -48,7 +48,7 @@ export async function POST(
     );
   }
 
-  const { id } = context.params;
+  const { id } = await context.params;
 
   try {
     const media = await prisma.productMedia.create({
@@ -106,7 +106,10 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: "mediaId is required" }, { status: 400 });
   }
 
-  const media = await prisma.productMedia.delete({ where: { id: mediaId } });
+  const media = await prisma.productMedia.delete({
+    where: { id: mediaId },
+    select: { id: true, publicId: true, type: true }
+  });
 
   if (media.publicId) {
     const resourceType = media.type === "VIDEO" ? "video" : "image";
