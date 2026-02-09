@@ -30,3 +30,4 @@ out/
 dist/
 .env*
 .DS_Store
+.README.md
