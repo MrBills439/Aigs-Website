@@ -9,6 +9,11 @@ const manrope = Manrope({ subsets: ['latin'], variable: '--font-manrope' });
 export const metadata: Metadata = {
   title: 'ADIS WiGS AND Beauty',
   description: 'Premium wigs and beauty essentials crafted for confidence and elegance.',
+  icons:{
+    icon:['/favicon.ico?v=4'],
+    apple:['/apple-touch-icon.png?v=4'],
+    shortcut:['/apple-touch-icon.pmg']
+  },
   metadataBase: new URL('https://www.adiswigsandbeauty.com'),
   openGraph: {
     title: 'ADIS WiGS AND Beauty',
