@@ -202,8 +202,22 @@ export default function CheckoutPage() {
               <p className="text-xs text-deep/60">
                 Payment is manual. We will contact you after checkout to arrange payment.
               </p>
+              {/* place order button */}
+          <div>
+          <PayNow 
+              email={form.getValues('customerEmail')} 
+              amount={subtotal + shippingFee}
+            />
+          </div>
             </div>
           )}
+          {/* place order button */}
+          {/* <div>
+          <PayNow 
+              email={form.getValues('customerEmail')} 
+              amount={subtotal + shippingFee}
+            />
+          </div> */}
         </div>
       </div>
     </div>
