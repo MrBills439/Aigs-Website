@@ -51,6 +51,7 @@ export async function POST(
   const { id } = await context.params;
 
   try {
+    // Media records store Cloudinary URL + publicId for later deletion.
     const media = await prisma.productMedia.create({
       data: {
         productId: id,
@@ -112,6 +113,7 @@ export async function DELETE(request: NextRequest) {
   });
 
   if (media.publicId) {
+    // Keep cloud storage in sync when admin deletes media from DB.
     const resourceType = media.type === "VIDEO" ? "video" : "image";
     await deleteCloudinaryAsset({ publicId: media.publicId, resourceType });
   }

@@ -5,6 +5,7 @@ import { formatMoney } from '@/lib/format';
 const resend = new Resend(process.env.RESEND_API_KEY || '');
 
 export function ownerOrderEmail(order: Order, items: OrderItem[]) {
+  // Snapshot-based rows ensure email reflects what customer bought at checkout time.
   const rows = items
     .map(
       (item) =>
@@ -71,6 +72,7 @@ export async function sendOrderEmails(params: {
 
   const { order, items, ownerEmail } = params;
 
+  // Owner notification first, then customer confirmation.
   await resend.emails.send({
     from: 'ADIS WiGS AND Beauty <orders@adiswigsandbeauty.com>',
     to: ownerEmail,
@@ -97,6 +99,7 @@ export async function sendPasswordResetEmail(params: {
   const resend = new Resend(process.env.RESEND_API_KEY);
   const { to, resetUrl } = params;
 
+  // One-time reset link email for admin account recovery.
   await resend.emails.send({
     from: 'ADIS WiGS AND Beauty <security@adiswigsandbeauty.com>',
     to,

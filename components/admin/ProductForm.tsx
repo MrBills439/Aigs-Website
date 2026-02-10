@@ -55,6 +55,7 @@ export default function ProductForm({
   );
 
   async function onSubmit(values: ProductFormValues) {
+    // Keep slug stable, but auto-generate from title when left blank.
     const slug = values.slug && values.slug.trim().length > 0 ? values.slug : slugify(values.title);
     const payload = {
       ...values,

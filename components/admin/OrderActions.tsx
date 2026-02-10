@@ -12,6 +12,7 @@ export default function OrderActions({ orderId, fulfillmentStatus }: Props) {
 
   async function updateStatus(nextStatus: string) {
     setLoading(true);
+    // Quick status transitions from the orders list for day-to-day fulfillment workflow.
     await fetch(`/api/admin/orders/${orderId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },

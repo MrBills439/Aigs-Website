@@ -9,6 +9,7 @@ export default async function EditProductPage({
 }: {
   params: Promise<{ slug?: string }>;
 }) {
+  // Next 16 passes dynamic params asynchronously.
   const { slug } = await params;
 
   if (!slug) {

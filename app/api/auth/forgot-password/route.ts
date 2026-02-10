@@ -18,6 +18,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ status: 'ok' });
     }
 
+    // Invalidate previous reset links before issuing a new one.
     await prisma.passwordResetToken.deleteMany({ where: { userId: user.id } });
 
     const token = generateResetToken();

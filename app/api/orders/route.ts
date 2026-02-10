@@ -58,6 +58,7 @@ export async function POST(request: Request) {
     const total = subtotal + shippingFee;
 
     const order = await prisma.$transaction(async (tx) => {
+      // Atomic stock decrement + order creation prevents overselling.
       for (const item of orderItems) {
         const updated = await tx.product.updateMany({
           where: { id: item.product.id, stockQty: { gte: item.qty } },
@@ -100,6 +101,7 @@ export async function POST(request: Request) {
     });
 
     if (!order.emailSentAt) {
+      // Idempotency guard: send order emails once.
       const ownerEmail = process.env.OWNER_EMAIL;
       if (ownerEmail) {
         await sendOrderEmails({ order, items: order.items, ownerEmail });

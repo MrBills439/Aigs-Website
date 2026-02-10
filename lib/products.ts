@@ -27,6 +27,7 @@ export async function getShopProducts(params: {
 }): Promise<ProductWithMedia[]> {
   const { query, texture, length, laceType, capSize, inStock, sort } = params;
 
+  // Build Prisma filters from query-string driven shop filters.
   const where = {
     isActive: true,
     ...(query

@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
       where: { token: parsed.token }
     });
 
+    // Token must exist, be unused, and unexpired.
     if (!record || record.usedAt || record.expiresAt < new Date()) {
       return NextResponse.json({ error: 'Token is invalid or expired.' }, { status: 400 });
     }

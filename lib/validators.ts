@@ -13,6 +13,7 @@ export const checkoutSchema = z.object({
   paymentMethod: z.enum(['BANK_TRANSFER', 'CASH_ON_COLLECTION', 'PAYMENT_LINK', 'OTHER']),
   notes: z.string().optional()
 }).superRefine((data, ctx) => {
+  // Shipping fields are optional only for in-store collection.
   if (data.deliveryMethod !== 'COLLECTION') {
     if (!data.shippingAddressLine1) {
       ctx.addIssue({ code: 'custom', path: ['shippingAddressLine1'], message: 'Address line 1 is required' });

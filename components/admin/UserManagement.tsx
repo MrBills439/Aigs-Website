@@ -41,6 +41,7 @@ export default function UserManagement({ initialUsers }: { initialUsers: AdminUs
   }
 
   async function sendReset(email: string) {
+    // Sends one-time reset link to selected admin user.
     const response = await fetch('/api/auth/forgot-password', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

@@ -23,6 +23,7 @@ export default function MediaUploader({
   const [uploading, setUploading] = useState(false);
 
   async function uploadSingle(file: File, mediaType: 'IMAGE' | 'VIDEO') {
+    // Signed upload keeps Cloudinary credentials off the client.
     const signatureResponse = await fetch('/api/upload-signature', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -78,6 +79,7 @@ export default function MediaUploader({
     setUploading(true);
     try {
       if (mediaType === 'IMAGE') {
+        // Enforce max 5 images per product in the admin uploader.
         const currentImageCount = media.filter((item) => item.type === 'IMAGE').length;
         const remainingSlots = Math.max(0, 5 - currentImageCount);
         const selectedFiles = Array.from(files).slice(0, remainingSlots);
@@ -125,6 +127,7 @@ export default function MediaUploader({
     const [moved] = newMedia.splice(index, 1);
     newMedia.splice(newIndex, 0, moved);
 
+    // Persist the new display order so storefront gallery remains consistent.
     const updates = newMedia.map((item, idx) => ({ id: item.id, sortOrder: idx + 1 }));
     await fetch(`/api/admin/products/${productId}/media`, {
       method: 'PATCH',

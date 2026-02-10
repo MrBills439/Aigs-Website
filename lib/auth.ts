@@ -16,6 +16,7 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials.password) {
           return null;
         }
+        // Admin-only credentials lookup.
         const user = await prisma.user.findUnique({ where: { email: credentials.email } });
         if (!user || !user.passwordHash) {
           return null;
@@ -32,6 +33,7 @@ export const authOptions: NextAuthOptions = {
   // pages: { signIn: '/admin/login' },
   callbacks: {
     async jwt({ token, user }) {
+      // Persist role on JWT so middleware can authorize admin routes.
       if (user) {
         token.role = (user as { role?: string }).role;
       }
