@@ -37,6 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="flex min-h-screen flex-col bg-sand">
           <RouteChrome>{children}</RouteChrome>
         </div>
+        <script src="https://js.paystack.co/v1/inline.js"></script>
       </body>
     </html>
   );
