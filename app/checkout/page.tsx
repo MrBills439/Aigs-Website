@@ -8,7 +8,7 @@ import type { z } from 'zod';
 import { useCartStore } from '@/lib/cart';
 import { formatMoney } from '@/lib/format';
 import { useRouter } from 'next/navigation';
-import PayNow from '@/components/paypay';
+import PayNow from '@/components/PayNow';
 
 const deliveryFees: Record<string, number> = {
   STANDARD: 1000,
