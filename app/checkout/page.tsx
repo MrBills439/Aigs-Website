@@ -167,13 +167,13 @@ export default function CheckoutPage() {
           </div>
             
 
-          <button
+          {/* <button
             type="submit"
             disabled={isSubmitting}
             className="w-full rounded-full bg-deep px-6 py-3 text-sm uppercase tracking-[0.2em] text-white disabled:cursor-not-allowed disabled:bg-deep/40"
           >
             {isSubmitting ? 'Placing order...' : 'Place order'}
-          </button>
+          </button> */}
         </form>
         <div className="card space-y-4 p-6">
           <p className="text-xs uppercase tracking-[0.2em] text-deep/60">Order summary</p>
