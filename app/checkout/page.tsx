@@ -159,10 +159,13 @@ export default function CheckoutPage() {
 
 
           {/* place order button */}
-            <PayNow 
+          <div>
+          <PayNow 
               email={form.getValues('customerEmail')} 
               amount={subtotal + shippingFee}
             />
+          </div>
+            
 
           <button
             type="submit"
