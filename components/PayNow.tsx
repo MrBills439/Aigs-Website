@@ -15,7 +15,7 @@ declare global {
   
     const startPayment = () => {
       const handler = window.PaystackPop.setup({
-        key: env.VITE_PAYSTACK_KEY,
+        key: process.env.NEXT_PUBLIC_PAYSTACK_KEY!,
         email: email,
         amount: amount * 100, // convert to pesewas
         currency: "GHS",
