@@ -8,6 +8,7 @@ import type { z } from 'zod';
 import { useCartStore } from '@/lib/cart';
 import { formatMoney } from '@/lib/format';
 import { useRouter } from 'next/navigation';
+import PayNow from '@/components/paypay';
 
 const deliveryFees: Record<string, number> = {
   STANDARD: 1000,
@@ -155,6 +156,14 @@ export default function CheckoutPage() {
               {...form.register('notes')}
             />
           </div>
+
+
+          {/* place order button */}
+            <PayNow 
+              email={form.getValues('customerEmail')} 
+              amount={subtotal + shippingFee}
+            />
+
           <button
             type="submit"
             disabled={isSubmitting}
