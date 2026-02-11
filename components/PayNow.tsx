@@ -19,7 +19,7 @@ declare global {
         email: email,
         amount: amount , // convert to pesewas
         currency: "GHS",
-        ref: "DLIFE_" + Date.now(),
+        ref: "ADI" + Date.now(),
   
         callback: (response: any) => {
           console.log("Payment successful:", response.reference);
