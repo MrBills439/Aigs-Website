@@ -16,6 +16,7 @@ const deliveryFees: Record<string, number> = {
   COLLECTION: 0
 };
 
+
 type CheckoutForm = z.infer<typeof checkoutSchema>;
 
 export default function CheckoutPage() {
@@ -32,6 +33,8 @@ export default function CheckoutPage() {
       paymentMethod: 'BANK_TRANSFER'
     }
   });
+
+  const email = form.watch('customerEmail');
 
   const deliveryMethod = form.watch('deliveryMethod');
   const shippingFee = deliveryFees[deliveryMethod];
@@ -84,6 +87,7 @@ export default function CheckoutPage() {
                 className="rounded-2xl border border-rose/40 bg-white px-4 py-2 text-sm"
                 {...form.register('customerEmail')}
               />
+
               <input
                 placeholder="Phone number"
                 className="rounded-2xl border border-rose/40 bg-white px-4 py-2 text-sm"
@@ -158,22 +162,15 @@ export default function CheckoutPage() {
           </div>
 
 
-          {/* place order button */}
-          <div>
-          <PayNow 
-              email={form.getValues('customerEmail')} 
-              amount={subtotal + shippingFee}
-            />
-          </div>
             
 
-          {/* <button
+          <button
             type="submit"
             disabled={isSubmitting}
             className="w-full rounded-full bg-deep px-6 py-3 text-sm uppercase tracking-[0.2em] text-white disabled:cursor-not-allowed disabled:bg-deep/40"
           >
             {isSubmitting ? 'Placing order...' : 'Place order'}
-          </button> */}
+          </button>
         </form>
         <div className="card space-y-4 p-6">
           <p className="text-xs uppercase tracking-[0.2em] text-deep/60">Order summary</p>
@@ -205,19 +202,12 @@ export default function CheckoutPage() {
               {/* place order button */}
           <div>
           <PayNow 
-              email={form.getValues('customerEmail')} 
+              email={email} 
               amount={subtotal + shippingFee}
             />
           </div>
             </div>
           )}
-          {/* place order button */}
-          {/* <div>
-          <PayNow 
-              email={form.getValues('customerEmail')} 
-              amount={subtotal + shippingFee}
-            />
-          </div> */}
         </div>
       </div>
     </div>
