@@ -15,6 +15,12 @@ export function ownerOrderEmail(order: Order, items: OrderItem[]) {
 
   return `
     <div style="font-family: Arial, sans-serif; color: #1a1512;">
+    <img 
+      src="https://adiswigshub.com/logo.png"
+      alt="ADIS WiGS AND Beauty"
+      width="140"
+      style="margin-bottom:16px;"
+     />
       <h2>New order received (#${order.id})</h2>
       <p><strong>Customer:</strong> ${order.customerName} (${order.customerEmail})</p>
       <p><strong>Phone:</strong> ${order.phone}</p>
@@ -45,6 +51,12 @@ export function customerOrderEmail(order: Order, items: OrderItem[]) {
 
   return `
     <div style="font-family: Arial, sans-serif; color: #1a1512;">
+    <img 
+      src="https://adiswigshub.com/logo.png"
+      alt="ADIS WiGS AND Beauty"
+      width="140"
+      style="margin-bottom:16px;"
+     />
       <h2>Thank you for your order (#${order.id})</h2>
       <p>We received your request and will contact you to arrange payment and delivery.</p>
       <table style="width:100%; border-collapse: collapse; margin-top: 16px;">
@@ -74,14 +86,14 @@ export async function sendOrderEmails(params: {
 
   // Owner notification first, then customer confirmation.
   await resend.emails.send({
-    from: 'ADIS WiGS AND Beauty <orders@adiswigsandbeauty.com>',
+    from: 'ADIS WiGS AND Beauty <orders@adiswigshub.com>',
     to: ownerEmail,
     subject: `New order #${order.id} received`,
     html: ownerOrderEmail(order, items)
   });
 
   await resend.emails.send({
-    from: 'ADIS WiGS AND Beauty <orders@adiswigsandbeauty.com>',
+    from: 'ADIS WiGS AND Beauty <orders@adiswigshub.com>',
     to: order.customerEmail,
     subject: `Your ADIS WiGS AND Beauty order #${order.id}`,
     html: customerOrderEmail(order, items)
@@ -101,7 +113,7 @@ export async function sendPasswordResetEmail(params: {
 
   // One-time reset link email for admin account recovery.
   await resend.emails.send({
-    from: 'ADIS WiGS AND Beauty <security@adiswigsandbeauty.com>',
+    from: 'ADIS WiGS AND Beauty <security@adiswigshub.com>',
     to,
     subject: 'Reset your ADIS WiGS AND Beauty admin password',
     html: `<p>We received a request to reset your admin password.</p>\n<p><a href=\"${resetUrl}\">Reset your password</a></p>\n<p>This link will expire in 1 hour.</p>`
