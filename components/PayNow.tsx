@@ -20,6 +20,8 @@ declare global {
         amount: amount , // convert to pesewas
         currency: "GHS",
         ref: "ADI" + Date.now(),
+
+        subaccount: process.env.NEXT_PUBLIC_WABI_SABI!,
   
         callback: (response: any) => {
           console.log("Payment successful:", response.reference);
